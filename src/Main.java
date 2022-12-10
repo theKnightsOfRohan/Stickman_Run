@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class Main extends PApplet {
     Player player;
-    PImage background;
-    int backgroundX, ground;
+    PImage background, newGame, titleText, gameOver;
+    int backgroundX, ground, gameState, newGameX, newGameY, score;
     ArrayList<Platform> platformList = new ArrayList<>();
 
     public void settings() {
@@ -15,6 +15,8 @@ public class Main extends PApplet {
     public void setup() {
         player = new Player();
         ground = 460;
+        gameState = 0;
+        score = 0;
 
         //For some reason, images MUST be loaded in setup. Oh well :/
         getFrames();
@@ -25,31 +27,58 @@ public class Main extends PApplet {
 
         background = loadImage("Sprites/Background.jpeg");
         background.resize(1066, 600);
+
+        newGame = loadImage("Sprites/Images/New_Game.png");
+        newGame.resize(250, 50);
+        newGameX = width/2 - newGame.width/2;
+        newGameY = height/2 + newGame.height;
+
+        titleText = loadImage("Sprites/Images/Title_Text.png");
+        titleText.resize(390, 45);
+
+        gameOver = loadImage("Sprites/Images/Game_Over.png");
     }
 
     public void draw() {
-        drawBackground();
-
-        image(player.sprite, player.x, player.y);
-
-        for (Platform currPlatform : platformList) {
-            Platform previousPlatform = platformList.get(currPlatform.previousListIndex);
+        if (gameState == 0) {
+            drawBackground();
+            image(player.sprite, player.x, player.y);
+            player.act();
 
             fill(0);
-            stroke(255);
-            currPlatform.act();
-            currPlatform.playerContact(player);
+            stroke(0);
+            rect(0, ground, width, height - ground);
 
-            if (currPlatform.x + currPlatform.length < 0) {
-                currPlatform.respawn(previousPlatform);
+            image(titleText, width/2 - titleText.width/2, height/4 - 5);
+            image(newGame, newGameX, newGameY);
+        } else if (gameState == 1) {
+            drawBackground();
+
+            image(player.sprite, player.x, player.y);
+
+            for (Platform currPlatform : platformList) {
+                Platform previousPlatform = platformList.get(currPlatform.previousListIndex);
+
+                fill(0);
+                stroke(255);
+                currPlatform.act();
+                currPlatform.playerContact(player);
+
+                if (currPlatform.x + currPlatform.length < 0) {
+                    currPlatform.respawn(previousPlatform);
+                }
+
+                rect(currPlatform.x, currPlatform.y, currPlatform.length, currPlatform.stature);
             }
 
-            rect(currPlatform.x, currPlatform.y, currPlatform.length, currPlatform.stature);
+            stroke(0);
+            rect(0, ground, width, height - ground);
+            player.act();
+        } else if (gameState == 2) {
+            background(0);
+            image(gameOver, width/2 - gameOver.width/2, height/2 - gameOver.height);
+            image(newGame, newGameX, newGameY);
         }
-
-        stroke(0);
-        rect(0, ground, width, height - ground);
-        player.act();
     }
 
     public void getFrames() {
@@ -93,8 +122,14 @@ public class Main extends PApplet {
     }
 
     public void keyReleased() {
-        if (key == ' ') {
+        if (key == ' ' && gameState == 1) {
             player.jump();
+        }
+    }
+
+    public void mouseReleased() {
+        if (gameState != 1 && mouseX > newGameX && mouseX < newGameX + newGame.width && mouseY > newGameY && mouseY < newGameY + newGame.height) {
+            gameState = 1;
         }
     }
 

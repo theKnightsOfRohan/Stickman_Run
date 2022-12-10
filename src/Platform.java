@@ -51,7 +51,8 @@ public class Platform extends Main {
             player.frameNumber = 18;
         } else if ((player.x + player.sprite.width > this.x && player.x < this.x && player.y < this.y && player.y + player.sprite.height > this.y)
                 || (player.x + player.sprite.width > this.x && player.x < this.x + this.length && player.y > this.y && player.y < this.y + this.stature)) {
-            System.exit(0);
+            gameState = 2;
+            System.out.println(gameState);
         }
     }
 }
