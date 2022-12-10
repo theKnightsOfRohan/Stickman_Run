@@ -35,8 +35,6 @@ public class Main extends PApplet {
 
         titleText = loadImage("Sprites/Images/Title_Text.png");
         titleText.resize(390, 45);
-
-        gameOver = loadImage("Sprites/Images/Game_Over.png");
     }
 
     public void draw() {
@@ -74,10 +72,6 @@ public class Main extends PApplet {
             stroke(0);
             rect(0, ground, width, height - ground);
             player.act();
-        } else if (gameState == 2) {
-            background(0);
-            image(gameOver, width/2 - gameOver.width/2, height/2 - gameOver.height);
-            image(newGame, newGameX, newGameY);
         }
     }
 
