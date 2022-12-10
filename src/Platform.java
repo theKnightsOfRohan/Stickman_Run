@@ -23,12 +23,12 @@ public class Platform extends Main {
     public void respawn(Platform previousPlatform) {
         this.x = previousPlatform.x + previousPlatform.length + (int)(Math.random() * 100) + 50;
 
-        if (previousPlatform.y <= 450) {
+        if (previousPlatform.y <= 360) {
             this.y = previousPlatform.y + (int)(Math.random() * 70);
-        } else if (previousPlatform.y > ground - 80) {
+        } else if (previousPlatform.y > (ground - 20)) {
             this.y = previousPlatform.y - (int)(Math.random() * 70);
         } else {
-            this.y = previousPlatform.y + (int)(Math.random() * 70) - 25;
+            this.y = previousPlatform.y + (int)(Math.random() * 70) - 35;
         }
 
         this.getPlatformDimensions();

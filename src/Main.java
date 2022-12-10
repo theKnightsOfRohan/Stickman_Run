@@ -14,7 +14,7 @@ public class Main extends PApplet {
 
     public void setup() {
         player = new Player();
-        ground = 528;
+        ground = 460;
 
         //For some reason, images MUST be loaded in setup. Oh well :/
         getFrames();
@@ -23,8 +23,8 @@ public class Main extends PApplet {
 
         createPlatforms();
 
-        background = loadImage("Sprites/City_Background.png");
-        background.resize(600, 600);
+        background = loadImage("Sprites/Background.jpeg");
+        background.resize(1066, 600);
     }
 
     public void draw() {
@@ -84,10 +84,10 @@ public class Main extends PApplet {
 
     public void drawBackground() {
         background(0);
-        image(background, backgroundX, 100);
-        image(background, backgroundX + background.width, 100);
+        image(background, backgroundX, 0);
+        image(background, backgroundX + background.width, 0);
         backgroundX--;
-        if (backgroundX + (background.width * 2) == width) {
+        if (backgroundX + background.width == 0) {
             backgroundX = 0;
         }
     }

@@ -13,7 +13,7 @@ public class Player extends Main {
         this.gravity = 1;
         this.frameNumber = 0;
         this.isJumping = false;
-        ground = 530;
+        ground = 460;
     }
 
     public void act() {
