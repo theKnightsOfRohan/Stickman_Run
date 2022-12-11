@@ -23,7 +23,9 @@ public class Player extends Main {
         //If the player is jumping, then move them according to speed.
         if (this.isJumping) {
             this.y -= this.ySpeed;
-            this.sprite = jumpFrames.get(frameNumber);
+            if (this.frameNumber < 21) {
+                this.sprite = jumpFrames.get(frameNumber);
+            }
 
             //If the player lands on the ground while they are jumping, set them to ground level and stop jump processes.
             if (this.y + this.sprite.height >= ground) {

@@ -21,6 +21,7 @@ public class Platform extends Main {
     }
 
     public void respawn(Platform previousPlatform) {
+        //Respawns take into account previous platform's coordinates to prevent outrageous spawns from occurring.
         this.x = previousPlatform.x + previousPlatform.length + (int)(Math.random() * 100) + 50;
 
         if (previousPlatform.y <= 360) {

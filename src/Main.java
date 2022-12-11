@@ -79,12 +79,16 @@ public class Main extends PApplet {
         for (int i = 1; i <= 10; i++) {
             PImage runFrame = loadImage("Sprites/Stickman/Run_Frames/Frame" + i + ".png");
             runFrame.resize(50, 50);
-            PImage jumpFrame = loadImage("Sprites/Stickman/Jump_Frames/Frame" + i + ".png");
-            jumpFrame.resize(50, 50);
-
             for (int j = 0; j < 3; j++) {
                 player.runFrames.add(runFrame);
-                player.jumpFrames.add(jumpFrame);
+            }
+
+            if (i <= 8) {
+                PImage jumpFrame = loadImage("Sprites/Stickman/Jump_Frames/Frame" + i + ".png");
+                jumpFrame.resize(50, 50);
+                for (int j = 0; j < 3; j++) {
+                    player.jumpFrames.add(jumpFrame);
+                }
             }
         }
     }
