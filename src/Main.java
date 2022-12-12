@@ -35,6 +35,8 @@ public class Main extends PApplet {
 
         titleText = loadImage("Sprites/Images/Title_Text.png");
         titleText.resize(390, 45);
+
+        gameOver = loadImage("Sprites/Images/Game_Over.png");
     }
 
     public void draw() {
@@ -60,7 +62,11 @@ public class Main extends PApplet {
                 fill(0);
                 stroke(255);
                 currPlatform.act();
-                currPlatform.playerContact(player);
+                gameState = currPlatform.playerContact(player);
+                System.out.println(gameState);
+                if (gameState == 2) {
+                    break;
+                }
 
                 if (currPlatform.x + currPlatform.length < 0) {
                     currPlatform.respawn(previousPlatform);
@@ -72,6 +78,10 @@ public class Main extends PApplet {
             stroke(0);
             rect(0, ground, width, height - ground);
             player.act();
+        } else if (gameState == 2) {
+            background(0);
+            image(gameOver, width/2 - gameOver.width/2, height/2 - gameOver.height);
+            image(newGame, newGameX, newGameY);
         }
     }
 
@@ -127,6 +137,9 @@ public class Main extends PApplet {
 
     public void mouseReleased() {
         if (gameState != 1 && mouseX > newGameX && mouseX < newGameX + newGame.width && mouseY > newGameY && mouseY < newGameY + newGame.height) {
+            platformList.clear();
+            player.runFrames.clear();
+            setup();
             gameState = 1;
         }
     }

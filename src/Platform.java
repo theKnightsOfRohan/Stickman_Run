@@ -40,19 +40,23 @@ public class Platform extends Main {
         this.stature = (int)(Math.random() * 100) + 50;
     }
 
-    public void playerContact(Player player) {
+    public int playerContact(Player player) {
         //I would try to simplify the conditionals, but unfortunately each check is slightly different from the others
         //In other words: AAAAAAAAAAAAA
         if (player.x + player.sprite.width > this.x && player.x < this.x + this.length && player.y < this.y && player.y + player.sprite.height > this.y && player.isJumping && player.ySpeed < 0) {
             player.isJumping = false;
             player.ySpeed = 0;
             player.y = this.y - player.sprite.height;
+            return 1;
         } else if (player.x > this.x + this.length && player.y == this.y - player.sprite.height && !player.isJumping) {
             player.isJumping = true;
             player.frameNumber = 18;
+            return 1;
         } else if ((player.x + player.sprite.width > this.x && player.x < this.x && player.y < this.y && player.y + player.sprite.height > this.y)
                 || (player.x + player.sprite.width > this.x && player.x < this.x + this.length && player.y > this.y && player.y < this.y + this.stature)) {
-            System.exit(0);
+            return 2;
+        } else {
+            return 1;
         }
     }
 }
