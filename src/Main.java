@@ -63,7 +63,6 @@ public class Main extends PApplet {
                 stroke(255);
                 currPlatform.act();
                 gameState = currPlatform.playerContact(player);
-                System.out.println(gameState);
                 if (gameState == 2) {
                     break;
                 }
