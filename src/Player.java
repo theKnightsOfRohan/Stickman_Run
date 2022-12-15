@@ -46,12 +46,10 @@ public class Player extends Main {
     }
 
     public void jump() {
-        //Conditional to prevent double jumping.
-        if (!this.isJumping) {
-            //Sets frameNumber to 0 to make sure it starts at the beginning of the jump animation.
-            this.frameNumber = 0;
-            this.isJumping = true;
-            this.ySpeed = 17;
-        }
+        //Sets frameNumber to 0 to make sure it starts at the beginning of the jump animation.
+        this.frameNumber = 0;
+        this.isJumping = true;
+        this.ySpeed = 17;
+
     }
 }

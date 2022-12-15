@@ -1,7 +1,4 @@
-import processing.core.PImage;
-
 public class Platform extends Main {
-    PImage sprite;
     int x, y, xSpeed, length, stature, listIndex, previousListIndex;
 
     Platform(int x, int listIndex) {
@@ -54,6 +51,7 @@ public class Platform extends Main {
             return 1;
         } else if ((player.x + player.sprite.width > this.x && player.x < this.x && player.y < this.y && player.y + player.sprite.height > this.y)
                 || (player.x + player.sprite.width > this.x && player.x < this.x + this.length && player.y > this.y && player.y < this.y + this.stature)) {
+            score = 0.0;
             return 2;
         } else {
             return 1;

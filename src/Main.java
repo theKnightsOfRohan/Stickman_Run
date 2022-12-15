@@ -1,12 +1,19 @@
 import processing.core.PApplet;
 import processing.core.PImage;
 import java.util.ArrayList;
+import java.text.DecimalFormat;
+import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
 
 public class Main extends PApplet {
     Player player;
     PImage background, newGame, titleText, gameOver;
-    int backgroundX, ground, gameState, newGameX, newGameY, score;
+    int backgroundX, ground, gameState, newGameX, newGameY;
+    double score;
+    DecimalFormat df = new DecimalFormat("#.0");
     ArrayList<Platform> platformList = new ArrayList<>();
+    Minim loader;
+    AudioPlayer jumpSound, gameOverSound, homeBgm, gameBgm;
 
     public void settings() {
         size(600, 600);
@@ -37,6 +44,14 @@ public class Main extends PApplet {
         titleText.resize(390, 45);
 
         gameOver = loadImage("Sprites/Images/Game_Over.png");
+
+        loader = new Minim(this);
+        homeBgm = loader.loadFile("Sound_Effects/Home_Background_Music.mp3");
+        gameBgm = loader.loadFile("Sound_Effects/Game_Background_Music.mp3");
+        jumpSound = loader.loadFile("Sound_Effects/Jump_Sound.mp3");
+        gameOverSound = loader.loadFile("Sound_Effects/Game_Over_Sound.mp3");
+
+        homeBgm.play();
     }
 
     public void draw() {
@@ -55,12 +70,12 @@ public class Main extends PApplet {
             drawBackground();
 
             image(player.sprite, player.x, player.y);
+            fill(0);
+            stroke(255);
 
             for (Platform currPlatform : platformList) {
                 Platform previousPlatform = platformList.get(currPlatform.previousListIndex);
 
-                fill(0);
-                stroke(255);
                 currPlatform.act();
                 gameState = currPlatform.playerContact(player);
                 if (gameState == 2) {
@@ -77,7 +92,18 @@ public class Main extends PApplet {
             stroke(0);
             rect(0, ground, width, height - ground);
             player.act();
+            score += 0.1;
+            fill(255);
+            textSize(20);
+
+            text("Score: " + Double.valueOf(df.format(score)) + " m", 10, 25);
         } else if (gameState == 2) {
+            if (gameBgm.isPlaying()) {
+                gameBgm.pause();
+                gameBgm.rewind();
+                gameOverSound.play();
+                homeBgm.play();
+            }
             background(0);
             image(gameOver, width/2 - gameOver.width/2, height/2 - gameOver.height);
             image(newGame, newGameX, newGameY);
@@ -104,7 +130,7 @@ public class Main extends PApplet {
 
     public void createPlatforms() {
         for (int i = 0; i < 10; i++) {
-            Platform currPlatform = new Platform(width + 100, i);
+            Platform currPlatform = new Platform(width + 1000, i);
             currPlatform.y = ground - (int)(Math.random() * 50) - 50;
 
             currPlatform.getPlatformDimensions();
@@ -129,8 +155,10 @@ public class Main extends PApplet {
     }
 
     public void keyReleased() {
-        if (key == ' ' && gameState == 1) {
+        if (key == ' ' && gameState == 1 && !player.isJumping) {
             player.jump();
+            jumpSound.play();
+            jumpSound.rewind();
         }
     }
 
@@ -138,8 +166,12 @@ public class Main extends PApplet {
         if (gameState != 1 && mouseX > newGameX && mouseX < newGameX + newGame.width && mouseY > newGameY && mouseY < newGameY + newGame.height) {
             platformList.clear();
             player.runFrames.clear();
+            homeBgm.pause();
             setup();
             gameState = 1;
+            homeBgm.pause();
+            homeBgm.rewind();
+            gameBgm.play();
         }
     }
 
