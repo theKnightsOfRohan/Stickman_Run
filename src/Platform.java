@@ -9,7 +9,7 @@ public class Platform extends Main {
 
         this.previousListIndex = this.listIndex - 1;
         if (this.listIndex == 0) {
-            previousListIndex = 9;
+            this.previousListIndex = 9;
         }
     }
 
