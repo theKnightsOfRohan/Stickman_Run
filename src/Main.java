@@ -32,29 +32,30 @@ public class Main extends PApplet {
 
         createPlatforms();
 
-        background = loadImage("Sprites/Background.jpeg");
+        background = loadImage("Assets/Sprites/Background.jpeg");
         background.resize(1066, 600);
 
-        newGame = loadImage("Sprites/Images/New_Game.png");
+        newGame = loadImage("Assets/Sprites/Images/New_Game.png");
         newGame.resize(250, 50);
         newGameX = width/2 - newGame.width/2;
         newGameY = height/2 + newGame.height;
 
-        titleText = loadImage("Sprites/Images/Title_Text.png");
+        titleText = loadImage("Assets/Sprites/Images/Title_Text.png");
         titleText.resize(390, 45);
 
-        gameOver = loadImage("Sprites/Images/Game_Over.png");
+        gameOver = loadImage("Assets/Sprites/Images/Game_Over.png");
 
         loader = new Minim(this);
-        homeBgm = loader.loadFile("Sound_Effects/Home_Background_Music.mp3");
-        gameBgm = loader.loadFile("Sound_Effects/Game_Background_Music.mp3");
-        jumpSound = loader.loadFile("Sound_Effects/Jump_Sound.mp3");
-        gameOverSound = loader.loadFile("Sound_Effects/Game_Over_Sound.mp3");
+        homeBgm = loader.loadFile("Assets/Sound_Effects/Home_Background_Music.mp3");
+        gameBgm = loader.loadFile("Assets/Sound_Effects/Game_Background_Music.mp3");
+        jumpSound = loader.loadFile("Assets/Sound_Effects/Jump_Sound.mp3");
+        gameOverSound = loader.loadFile("Assets/Sound_Effects/Game_Over_Sound.mp3");
 
         homeBgm.play();
     }
 
     public void draw() {
+        //Game States: 0 = Home Screen, 1 = Game, 2 = Game Over
         if (gameState == 0) {
             drawBackground();
             image(player.sprite, player.x, player.y);
@@ -110,16 +111,17 @@ public class Main extends PApplet {
         }
     }
 
+    //Loads all the frames for the player's run and jump animations
     public void getFrames() {
         for (int i = 1; i <= 10; i++) {
-            PImage runFrame = loadImage("Sprites/Stickman/Run_Frames/Frame" + i + ".png");
+            PImage runFrame = loadImage("Assets/Sprites/Stickman/Run_Frames/Frame" + i + ".png");
             runFrame.resize(50, 50);
             for (int j = 0; j < 3; j++) {
                 player.runFrames.add(runFrame);
             }
 
             if (i <= 8) {
-                PImage jumpFrame = loadImage("Sprites/Stickman/Jump_Frames/Frame" + i + ".png");
+                PImage jumpFrame = loadImage("Assets/Sprites/Stickman/Jump_Frames/Frame" + i + ".png");
                 jumpFrame.resize(50, 50);
                 for (int j = 0; j < 3; j++) {
                     player.jumpFrames.add(jumpFrame);
@@ -128,6 +130,7 @@ public class Main extends PApplet {
         }
     }
 
+    //Creates the platforms that the player will jump on
     public void createPlatforms() {
         for (int i = 0; i < 10; i++) {
             Platform currPlatform = new Platform(width + 1000, i);
@@ -144,6 +147,7 @@ public class Main extends PApplet {
         }
     }
 
+    //Draws the background and makes it scroll
     public void drawBackground() {
         background(0);
         image(background, backgroundX, 0);
@@ -162,6 +166,7 @@ public class Main extends PApplet {
         }
     }
 
+    //Starts the game when the player clicks the "New Game" button
     public void mouseReleased() {
         if (gameState != 1 && mouseX > newGameX && mouseX < newGameX + newGame.width && mouseY > newGameY && mouseY < newGameY + newGame.height) {
             platformList.clear();
@@ -174,7 +179,6 @@ public class Main extends PApplet {
             gameBgm.play();
         }
     }
-
     public static void main(String[] args) {
         PApplet.main("Main");
     }
