@@ -25,7 +25,7 @@ public class Main extends PApplet {
         gameState = 0;
         score = 0;
 
-        //For some reason, images MUST be loaded in setup. Oh well :/
+        // For some reason, images MUST be loaded in setup. Oh well :/
         getFrames();
         player.sprite = player.runFrames.get(player.frameNumber);
         player.y = ground - player.sprite.height;
@@ -37,8 +37,8 @@ public class Main extends PApplet {
 
         newGame = loadImage("Assets/Sprites/Images/New_Game.png");
         newGame.resize(250, 50);
-        newGameX = width/2 - newGame.width/2;
-        newGameY = height/2 + newGame.height;
+        newGameX = width / 2 - newGame.width / 2;
+        newGameY = height / 2 + newGame.height;
 
         titleText = loadImage("Assets/Sprites/Images/Title_Text.png");
         titleText.resize(390, 45);
@@ -55,7 +55,7 @@ public class Main extends PApplet {
     }
 
     public void draw() {
-        //Game States: 0 = Home Screen, 1 = Game, 2 = Game Over
+        // Game States: 0 = Home Screen, 1 = Game, 2 = Game Over
         if (gameState == 0) {
             drawBackground();
             image(player.sprite, player.x, player.y);
@@ -65,7 +65,7 @@ public class Main extends PApplet {
             stroke(0);
             rect(0, ground, width, height - ground);
 
-            image(titleText, width/2 - titleText.width/2, height/4 - 5);
+            image(titleText, width / 2 - titleText.width / 2, height / 4 - 5);
             image(newGame, newGameX, newGameY);
         } else if (gameState == 1) {
             drawBackground();
@@ -106,12 +106,12 @@ public class Main extends PApplet {
                 homeBgm.play();
             }
             background(0);
-            image(gameOver, width/2 - gameOver.width/2, height/2 - gameOver.height);
+            image(gameOver, width / 2 - gameOver.width / 2, height / 2 - gameOver.height);
             image(newGame, newGameX, newGameY);
         }
     }
 
-    //Loads all the frames for the player's run and jump animations
+    // Loads all the frames for the player's run and jump animations
     public void getFrames() {
         for (int i = 1; i <= 10; i++) {
             PImage runFrame = loadImage("Assets/Sprites/Stickman/Run_Frames/Frame" + i + ".png");
@@ -130,11 +130,11 @@ public class Main extends PApplet {
         }
     }
 
-    //Creates the platforms that the player will jump on
+    // Creates the platforms that the player will jump on
     public void createPlatforms() {
         for (int i = 0; i < 10; i++) {
             Platform currPlatform = new Platform(width + 1000, i);
-            currPlatform.y = ground - (int)(Math.random() * 50) - 50;
+            currPlatform.y = ground - (int) (Math.random() * 50) - 50;
 
             currPlatform.getPlatformDimensions();
 
@@ -147,7 +147,7 @@ public class Main extends PApplet {
         }
     }
 
-    //Draws the background and makes it scroll
+    // Draws the background and makes it scroll
     public void drawBackground() {
         background(0);
         image(background, backgroundX, 0);
@@ -166,9 +166,10 @@ public class Main extends PApplet {
         }
     }
 
-    //Starts the game when the player clicks the "New Game" button
+    // Starts the game when the player clicks the "New Game" button
     public void mouseReleased() {
-        if (gameState != 1 && mouseX > newGameX && mouseX < newGameX + newGame.width && mouseY > newGameY && mouseY < newGameY + newGame.height) {
+        if (gameState != 1 && mouseX > newGameX && mouseX < newGameX + newGame.width && mouseY > newGameY
+                && mouseY < newGameY + newGame.height) {
             platformList.clear();
             player.runFrames.clear();
             homeBgm.pause();
@@ -179,6 +180,7 @@ public class Main extends PApplet {
             gameBgm.play();
         }
     }
+
     public static void main(String[] args) {
         PApplet.main("Main");
     }

@@ -7,6 +7,7 @@ public class Player extends Main {
     boolean isJumping;
     ArrayList<PImage> runFrames = new ArrayList<>();
     ArrayList<PImage> jumpFrames = new ArrayList<>();
+
     public Player() {
         this.x = 100;
         this.ySpeed = 0;
@@ -17,24 +18,25 @@ public class Player extends Main {
     }
 
     public void act() {
-        //Apply acceleration to speed.
+        // Apply acceleration to speed.
         this.ySpeed -= gravity;
 
-        //If the player is jumping, then move them according to speed.
+        // If the player is jumping, then move them according to speed.
         if (this.isJumping) {
             this.y -= this.ySpeed;
             if (this.frameNumber < 21) {
                 this.sprite = jumpFrames.get(frameNumber);
             }
 
-            //If the player lands on the ground while they are jumping, set them to ground level and stop jump processes.
+            // If the player lands on the ground while they are jumping, set them to ground
+            // level and stop jump processes.
             if (this.y + this.sprite.height >= ground) {
                 this.y = ground - this.sprite.height;
                 this.isJumping = false;
             }
         } else {
-            //If the player is not jumping, their ySpeed is set to 0.
-            //Continuous setting for safety, could be cut and debugged later.
+            // If the player is not jumping, their ySpeed is set to 0.
+            // Continuous setting for safety, could be cut and debugged later.
             this.ySpeed = 0;
             this.sprite = this.runFrames.get(this.frameNumber);
         }
@@ -46,7 +48,8 @@ public class Player extends Main {
     }
 
     public void jump() {
-        //Sets frameNumber to 0 to make sure it starts at the beginning of the jump animation.
+        // Sets frameNumber to 0 to make sure it starts at the beginning of the jump
+        // animation.
         this.frameNumber = 0;
         this.isJumping = true;
         this.ySpeed = 17;
