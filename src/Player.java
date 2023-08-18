@@ -1,9 +1,11 @@
 import processing.core.PImage;
 import java.util.ArrayList;
+import ddf.minim.AudioPlayer;
 
-public class Player extends Main {
+public class Player {
     PImage sprite;
-    int x, y, ySpeed, gravity, frameNumber;
+    int gravity, frameNumber;
+    float x, y, ySpeed;
     boolean isJumping;
     ArrayList<PImage> runFrames = new ArrayList<>();
     ArrayList<PImage> jumpFrames = new ArrayList<>();
@@ -14,24 +16,33 @@ public class Player extends Main {
         this.gravity = 1;
         this.frameNumber = 0;
         this.isJumping = false;
-        ground = 460;
     }
 
-    public void act() {
+    public void act(Main main) {
         // Apply acceleration to speed.
-        this.ySpeed -= gravity;
+        this.ySpeed -= this.gravity;
 
+        jumpMovement(main);
+
+        main.image(this.sprite, this.x, this.y);
+        this.frameNumber++;
+        if (this.frameNumber == 30) {
+            this.frameNumber = 0;
+        }
+    }
+
+    private void jumpMovement(Main main) {
         // If the player is jumping, then move them according to speed.
         if (this.isJumping) {
             this.y -= this.ySpeed;
             if (this.frameNumber < 21) {
-                this.sprite = jumpFrames.get(frameNumber);
+                this.sprite = this.jumpFrames.get(this.frameNumber);
             }
 
             // If the player lands on the ground while they are jumping, set them to ground
             // level and stop jump processes.
-            if (this.y + this.sprite.height >= ground) {
-                this.y = ground - this.sprite.height;
+            if (this.y + this.sprite.height >= main.ground) {
+                this.y = main.ground - this.sprite.height;
                 this.isJumping = false;
             }
         } else {
@@ -40,19 +51,15 @@ public class Player extends Main {
             this.ySpeed = 0;
             this.sprite = this.runFrames.get(this.frameNumber);
         }
-
-        this.frameNumber++;
-        if (this.frameNumber == 30) {
-            this.frameNumber = 0;
-        }
     }
 
-    public void jump() {
+    public void jump(AudioPlayer jumpSound) {
         // Sets frameNumber to 0 to make sure it starts at the beginning of the jump
         // animation.
         this.frameNumber = 0;
         this.isJumping = true;
         this.ySpeed = 17;
-
+        jumpSound.play();
+        jumpSound.rewind();
     }
 }
