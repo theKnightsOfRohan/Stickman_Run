@@ -5,7 +5,7 @@ public class Platform {
     Platform(int x, int listIndex) {
         this.x = x;
         this.listIndex = listIndex;
-        this.xSpeed = 3;
+        this.xSpeed = 4;
         this.getPlatformDimensions();
 
         this.previousListIndex = this.listIndex - 1;
@@ -19,23 +19,21 @@ public class Platform {
     }
 
     public void respawn(Main main, Platform previousPlatform) {
-        // Respawns take into account previous platform's coordinates to prevent
-        // outrageous spawns from occurring.
-        this.x = previousPlatform.x + previousPlatform.w + (int) (Math.random() * 100) + 50;
+        this.x = previousPlatform.x + previousPlatform.w + (int) (Math.random() * 200) - 50;
 
-        if (previousPlatform.y <= 360) {
-            this.y = previousPlatform.y + (int) (Math.random() * 70);
-        } else if (previousPlatform.y > (main.ground - 20)) {
-            this.y = previousPlatform.y - (int) (Math.random() * 70);
+        if (previousPlatform.y <= 400) {
+            this.y = previousPlatform.y + (int) (Math.random() * 100);
+        } else if (previousPlatform.y > (main.ground - 50)) {
+            this.y = previousPlatform.y - (int) (Math.random() * 100);
         } else {
-            this.y = previousPlatform.y + (int) (Math.random() * 70) - 35;
+            this.y = previousPlatform.y + (int) (Math.random() * 100) - 50;
         }
 
         this.getPlatformDimensions();
     }
 
     public void getPlatformDimensions() {
-        this.w = (int) (Math.random() * 100) + 50;
+        this.w = (int) (Math.random() * 200) + 50;
         this.h = (int) (Math.random() * 100) + 50;
     }
 

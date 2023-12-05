@@ -23,7 +23,7 @@ public class Main extends PApplet {
     }
 
     public void setup() {
-        Function<Void, Void> newGameAction = (Void v) -> {
+        loadFiles((Void v) -> {
             gameState = 1;
             platformList.clear();
             homeBgm.pause();
@@ -34,9 +34,7 @@ public class Main extends PApplet {
             player.frameNumber = 0;
             gameBgm.play();
             return null;
-        };
-
-        loadFiles(newGameAction);
+        });
 
         ground = 460;
         gameState = 0;
@@ -86,7 +84,7 @@ public class Main extends PApplet {
             stroke(0);
             rect(0, ground, width, height - ground);
             player.act(this);
-            score += 0.1;
+            score += 0.02;
             fill(255);
             textSize(20);
 
